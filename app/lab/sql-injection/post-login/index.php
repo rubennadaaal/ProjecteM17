@@ -13,8 +13,8 @@ session_start();
 
 if(isset($_POST['username']) && isset($_POST['password']) ){
 	
-	$usr=$_POST['username'];
-	$pwd=$_POST['password'];
+	$usr=mysql_real_escape_string($_POST['username']);
+	$pwd=mysql_real_escape_tring($_POST['password']);
 
 	$sql = "SELECT username,password FROM users WHERE username='" . $usr . "' AND password='" . $pwd . "'";
 
