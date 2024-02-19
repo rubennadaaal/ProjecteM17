@@ -1,42 +1,55 @@
 <?php
+    // Requerir l'arxiu de traducció
     require("../../../lang/lang.php");
     $strings = tr();
     
+    // Comprovar si s'ha enviat el formulari
     if( isset($_POST['submit']) ){
 
-        $tmpName = $_FILES['input_image']['tmp_name'];
-        $fileName = $_FILES['input_image']['name'];
+        // Obtindre informació sobre l'arxiu pujat
+        $tmpName = $_FILES['input_image']['tmp_name']; // Nom temporal de l'arxiu
+        $fileName = $_FILES['input_image']['name']; // Nom de l'arxiu
 
+        // Comprovar si s'ha proporcionat un nom d'arxiu
         if(!empty($fileName)){
-            $fileType = $_FILES['input_image']['type']; //MIME Type
-        
-            $extensions = array("php");
-    
-            if(!file_exists("uploads")){
-                mkdir("uploads");
-            }
-            
-            $uploadPath = "uploads/".$fileName;
-    
-            if( $fileType == "image/gif" || $fileType == "image/jpeg" || $fileType == "image/png"){
-    
-                if( @move_uploaded_file($tmpName,$uploadPath) ){
-                    $status = "success";
-                    
-                }else{
-                    $status = "unsuccess";
+            // Obtindre informació sobre l'arxiu d'imatge
+            $imageInfo = @getimagesize($tmpName);
+
+            // Comprovar si s'ha pogut obtenir informació sobre l'arxiu i si és una imatge vàlida
+            if ($imageInfo !== false && in_array($imageInfo['mime'], array('image/gif', 'image/jpeg', 'image/png'))) {
+                // Obtindre l'extensió de l'arxiu
+                $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+                // Definir les extensions permeses
+                $allowedExtensions = array("gif", "jpeg", "jpg", "png");
+
+                // Comprovar si l'extensió i el tipus MIME estan permesos
+                if (in_array($fileExtension, $allowedExtensions)) {
+
+                    // Comprovar si la carpeta de destí no existeix, si no, crear-la
+                    if(!file_exists("uploads")){
+                        mkdir("uploads");
+                    }
+
+                    // Definir la ruta de destí per a l'arxiu pujat
+                    $uploadPath = "uploads/".$fileName;
+
+                    // Moure l'arxiu pujat al destí
+                    if( @move_uploaded_file($tmpName,$uploadPath) ){
+                        $status = "success"; // Estat d'èxit
+                    } else {
+                        $status = "unsuccess"; // Estat de fallida
+                    }
+                } else {
+                    $status = "blocked"; // Estat d'arxiu bloquejat (extensió no permesa)
                 }
-    
-            }else{
-                $status = "blocked";
+            } else {
+                $status = "blocked"; // Estat d'arxiu bloquejat (tipus d'arxiu no vàlid)
             }
-        }else{
-            $status = "empty";
+        } else {
+            $status = "empty"; // Estat d'arxiu buit
         }
-
-
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -68,13 +81,14 @@
                     
                     <div class="card border-primary mb-4">
                         <div class="card-header text-primary">
-                        <?= $strings['card_formats']; ?> <b><?= $strings['card_formats_type']; ?> </b>
+                            <?= $strings['card_formats']; ?> <b><?= $strings['card_formats_type']; ?> </b>
                         </div>
                     </div>
 
                     <h3 class="mb-3"><?= $strings['middle_title']; ?></h3>
 
                     <?php
+                        // Mostrar missatges d'alerta segons l'estat de la càrrega de l'arxiu
                         if( isset($status) ){
                             if( $status == "success" ){
                                 echo '<div class="alert alert-success" role="alert">
