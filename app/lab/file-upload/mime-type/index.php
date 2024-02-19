@@ -16,7 +16,7 @@
             $imageInfo = @getimagesize($tmpName);
 
             // Comprovar si s'ha pogut obtenir informació sobre l'arxiu i si és una imatge vàlida
-            if ($imageInfo !== false && in_array($imageInfo['mime'], array('image/gif', 'image/jpeg', 'image/png'))) {
+            if ($imageInfo !== false && in_array($imageInfo['mime'], array('image/gif', 'image/jpeg', 'image/png', 'image/jpg'))) {
                 // Obtindre l'extensió de l'arxiu
                 $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
