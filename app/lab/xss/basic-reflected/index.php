@@ -34,6 +34,18 @@ $strings = tr();
       echo '</form>';
     }
 
+    // Validar el comentario
+    $comentario = trim($_POST["comentario"]);
+    if(empty($comentario)){
+      exit("Debes proporcionar un comentario");
+    }
+    // Sanitizar comentario
+    $comentario = strip_tags($comentario);
+    // El comentario ya se puede guardar de forma segura
+    file_put_contents("comentarios.txt", $comentario, FILE_APPEND);
+    // Escapar comentarios antes de mostrarlos
+    $comentarios = file_get_contents("comentarios.txt");
+    echo htmlspecialchars($comentarios);
     ?>
 
   </div>

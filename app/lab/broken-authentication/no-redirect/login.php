@@ -43,7 +43,7 @@ $strings = tr();
         <div class="row mb-3">
           <label for="inputPassword3" class="col-sm-2 col-form-label">Pass</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="passwd" id="inputPassword3">
+            <input type="password" class="form-control" name="passwd" id="inputPassword3">
           </div>
         </div>
         <button type="submit" class="btn btn-primary"><?php echo $strings['submit']; ?></button>
