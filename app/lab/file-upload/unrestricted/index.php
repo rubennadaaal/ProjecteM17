@@ -6,27 +6,33 @@
 
         $tmpName = $_FILES['input_image']['tmp_name'];
         $fileName = $_FILES['input_image']['name'];
+        $fileType = $_FILES['input_image']['type'];
 
-        if(!empty($fileName)){
-            if(!file_exists("uploads")){
-                mkdir("uploads");
+         // Array de tipos de archivo permitidos
+         $allowedTypes = array("image/gif", "image/png", "image/jpg", "image/jpeg");
+
+
+        // Verificar si el tipo de archivo es permitido
+        if (in_array($fileType, $allowedTypes)) {
+            if (!empty($fileName)) {
+                if (!file_exists("uploads")) {
+                    mkdir("uploads");
+                }
+
+                $uploadPath = "uploads/" . $fileName;
+
+                if (@move_uploaded_file($tmpName, $uploadPath)) {
+                    $status = "success";
+                } else {
+                    $status = "unsuccess";
+                }
+            } else {
+                $status = "empty";
             }
-    
-            $uploadPath = "uploads/".$fileName;
-    
-            if( @move_uploaded_file($tmpName,$uploadPath) ){
-                $status = "success";
-                
-            }else{
-                $status = "unsuccess";
-            }
-        }else{
-            $status = "empty";
+        } else {
+            $status = "invalid_type";
         }
-
-
     }
-
 ?>
 
 
