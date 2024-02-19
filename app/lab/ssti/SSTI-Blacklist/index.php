@@ -27,23 +27,33 @@ ini_set('display_errors', 0);
 
 
 if (isset($_GET['search'])) {
-    $search = $_GET['search'];
+    $search = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
 
-    $blacklist = array('{{', '}}', '{%', '%}');
-    $search = str_replace($blacklist, '', $search);
+
+    // Implementa una lista blanca de caracteres o patrones permitidos según tus requisitos
+    $allowed_characters = '/^[a-zA-Z0-9\s]+$/';
+    if (!preg_match($allowed_characters, $search)) {
+        echo 'Entrada no válida.';
+        exit;
+    }
+
 
     try {
-        require '../../../public/vendor/autoload.php';
-        Twig_Autoloader::register();
-        $loader = new Twig_Loader_String();
-        $twig = new Twig_Environment($loader);
-        $result = $twig->render(strip_tags($search));
+        // Implementa la lógica de búsqueda segura sin utilizar Twig en este contexto
+        $result = performSearch($search);
 
-        echo $result.' '.$strings['not_found'];
+
+        echo $result . ' ' . $strings['not_found'];
     } catch (Exception $e) {
-        echo('ERROR:' . $e->getMessage());
+        // Registra el error en un archivo de registro seguro
+        error_log('Error: ' . $e->getMessage());
+
+
+        // Proporciona un mensaje genérico al usuario
+        echo 'Ha ocurrido un error en la aplicación.';
     }
 }
+
 
 
 ?>
