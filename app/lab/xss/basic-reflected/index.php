@@ -16,7 +16,6 @@ $strings = tr();
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
   <title><?php echo $strings['title'];  ?></title>
 </head>
-</head>
 
 <body>
   <div class="container d-flex justify-content-center align-items-center h-100 mx-auto">
