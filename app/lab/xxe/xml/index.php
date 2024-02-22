@@ -1,4 +1,5 @@
 <?php
+    libxml_disable_entity_loader(true); //deshabilita el carregador d'entitats XML en la llibreria libxml de PHP
     require("../../../lang/lang.php");
     $strings = tr();
 ?>
