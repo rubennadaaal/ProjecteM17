@@ -12,9 +12,10 @@ $strings = tr();
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-  <title><?php echo htmlspecialchars($strings['title'], ENT_QUOTES, 'UTF-8'); ?></title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+  <title><?php echo $strings['title'];  ?></title>
+</head>
 </head>
 
 <body>
