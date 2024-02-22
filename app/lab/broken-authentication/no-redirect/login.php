@@ -7,11 +7,11 @@ $strings = tr();
     $password = "mandalorian";
   if( $username == $_POST['uname'] && $password == $_POST['passwd'] ){ //işlevsiz
    header("Location: index.php");
-   exit;
+   exit();
   }
   else{
    header("Location: login.php");
-   exit;
+   exit();
   }
  }
 
