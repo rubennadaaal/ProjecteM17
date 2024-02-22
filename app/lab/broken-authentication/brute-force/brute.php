@@ -27,8 +27,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         if (isset($_select['id'])) {
             $_SESSION['username'] = $_POST['username'];
             $html = "¡Inicio de sesión exitoso!";
-            // Redireccionar a la página de inicio
-            // header("Location: index.php");
         } else {
             $html = "Worng.";
         }
