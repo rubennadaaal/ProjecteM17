@@ -20,7 +20,8 @@ $db = new PDO('sqlite:database.db');
 
 <body>
     <div class="alert alert-primary d-flex justify-content-center" style="text-align: center;width: fit-content;margin: auto;margin-top: 3vh;">
-        <h6><?php echo $strings['text']; ?></h6>
+   <!-- Canvi per escapar del caracters html -->
+    <h6><?php echo htmlspecialchars($strings['text'], ENT_QUOTES, 'UTF-8'); ?></h6>
     </div>
     <div class="container d-flex justify-content-center">
         <div class="wrapper col-md-6  shadow-lg" style="border-radius: 15px; margin-top: 4vh;">
@@ -42,7 +43,8 @@ $db = new PDO('sqlite:database.db');
                     while ($cikti = $q->fetch(PDO::FETCH_ASSOC)) {
 
                         echo '<div class="msg col-md-6 m-3 px-4 bg-primary text-wrap " style="border-radius: 20px; padding: 5px;width: fit-content;color: aliceblue;">';
-                        echo $cikti['content'];
+                        //canvi per escapar dels caracters html
+                        echo htmlspecialchars($cikti['content'], ENT_QUOTES, 'UTF-8');
                         echo '</div>';
                     }
                 }
@@ -52,7 +54,7 @@ $db = new PDO('sqlite:database.db');
             </div>
             <div class="p-3 pb-0" style="text-align: center;">
                 <form action="#" method="POST" style="margin: 0;">
-                    <textarea placeholder="<?php echo $strings['message']; ?>" class="form-control" rows="3" name="mes"></textarea>
+                    <textarea placeholder="<?php echo htmlspecialchars($strings['message'], ENT_QUOTES, 'UTF-8'); ?>" class="form-control" rows="3" name="mes"></textarea>
                     <button type="submit" class="btn btn-primary m-3"><?php echo $strings['submit']; ?></button>
                 </form>
             </div>
@@ -72,10 +74,11 @@ $db = new PDO('sqlite:database.db');
         exit;
     }
     if (isset($_POST['mes'])) {
+        $message = strip_tags($_POST['mes']);
         $q = $db->prepare("INSERT INTO mandalorian_content (username,content) VALUES (:username,:message)");
         $q->execute(array(
             "username" => $_SESSION['username'],
-            "message" => $_POST['mes'],
+            "message" => $message,
         ));
         header("Location: stored.php");
         exit;
