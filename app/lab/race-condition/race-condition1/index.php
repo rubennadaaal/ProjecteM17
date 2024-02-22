@@ -11,16 +11,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = htmlspecialchars($_POST['email']);
     $tel = htmlspecialchars($_POST['tel']);
 
+    //Inici de la transacció
+    $db->beginTransaction();
 
-        //Check: Is there a registration with the same email??
+
+        //Comprova: Hi ha un registre amb el mateix correu electrònic?
         $kontrolSql = "SELECT * FROM kayit WHERE email = '$email'";
         $kontrolSonuc = $db->query($kontrolSql);
         $results = $kontrolSonuc->fetchAll(PDO::FETCH_ASSOC);
         if (count($results) > 0) {
-            // A registration with the same email has been found, issue a warning..
-            echo $strings['warning'];              //Registration failed: An account with the registered email already exists.!
+            // S'ha trobat un registre amb el mateix correu electrònic, emet una advertència...
+            echo $strings['warning'];              //El registre ha fallat: ja existeix un compte amb el correu electrònic registrat
         } else {
-            // No registration with the same email exists, add it.
+            //No existeix cap registre amb el mateix correu electrònic, afegiu-lo
             $ekleSql = "INSERT INTO kayit (ad, soyad, email, tel) VALUES ('$ad', '$soyad', '$email', '$tel')";
 
             if ($db->exec($ekleSql)) {
